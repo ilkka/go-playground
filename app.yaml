@@ -1,4 +1,4 @@
-application: 12000monkeys
+application: ilkka-go-playground
 version: 1
 runtime: go
 api_version: go1
