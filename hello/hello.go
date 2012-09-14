@@ -33,7 +33,7 @@ func root(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusFound)
 		return
 	}
-	q := datastore.NewQuery("Greeting").Order("-Date").Limit(10)
+	q := datastore.NewQuery("Greeting").Order("-Timestamp").Limit(10)
 	greetings := make([]Greeting, 0, 10)
 	if _, err := q.GetAll(c, &greetings); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
