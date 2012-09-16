@@ -1,1 +1,3 @@
-export GOPATH="$HOME/src/go-playground/cmdline:$GOPATH"
+this=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+export GOPATH="$this"
+export PATH="$this/bin:$PATH"
