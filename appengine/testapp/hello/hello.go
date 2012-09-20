@@ -39,7 +39,12 @@ func root(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if err := guestBookTemplate.Execute(w, greetings); err != nil {
+	url, _ := user.LogoutURL(c, "/")
+	if err := guestBookTemplate.Execute(w,
+		struct {
+			LogoutUrl string
+			Greetings []Greeting
+		}{ url, greetings }); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)		
 	}
 }
@@ -49,7 +54,7 @@ var guestBookTemplate = template.Must(template.New("book").Parse(guestBookTempla
 const guestBookTemplateHtml = `
 <html>
 <body>
-	{{range .}}
+	{{range .Greetings}}
 		{{with .Author}}
 		<p><b>{{.}}</b> wrote:</p>
 		{{else}}
@@ -62,6 +67,7 @@ const guestBookTemplateHtml = `
 		<textarea name="content" rows="3" cols="60"></textarea><br/>
 		<button type="submit">Sign</button>
 	</form>
+	<a href="{{.LogoutUrl}}">Log out</a>
 </body>
 </html>
 `
